@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 export function createModelDeployment(model) {
-  const basePath = "../cluster-config/apps/inference";
+  const basePath = "../cluster-config/apps/inference/dev";
   const modelPath = path.join(basePath, model.name);
 
   fs.mkdirSync(modelPath, { recursive: true });
@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: inference
-        image: your-inference-image
+        image: shane25225/inference-server:latest
         env:
         - name: MODEL_URL
           value: "${model.modelUrl}"
@@ -33,7 +33,7 @@ spec:
         - containerPort: 8000
 `;
 
-  fs.writeFileSync(path.join(modelPath, "deployment.yaml"), deployment);
+  fs.writeFileSync(path.join(modelPath, "deployment.yml"), deployment);
 
   // Service
   const service = `
@@ -49,20 +49,20 @@ spec:
       targetPort: 8000
 `;
 
-  fs.writeFileSync(path.join(modelPath, "service.yaml"), service);
+  fs.writeFileSync(path.join(modelPath, "service.yml"), service);
 
   // Kustomization
   const kustomization = `
 resources:
-  - deployment.yaml
-  - service.yaml
+  - deployment.yml
+  - service.yml
 `;
 
-  fs.writeFileSync(path.join(modelPath, "kustomization.yaml"), kustomization);
+  fs.writeFileSync(path.join(modelPath, "kustomization.yml"), kustomization);
 }
 
 export function updateRootKustomization(modelName) {
-  const file = "../cluster-config/apps/inference/kustomization.yaml";
+  const file = "../cluster-config/apps/inference/dev/kustomization.yml";
 
   let content = fs.readFileSync(file, "utf-8");
 

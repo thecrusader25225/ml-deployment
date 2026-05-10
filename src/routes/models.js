@@ -1,6 +1,7 @@
 import express from 'express';
 import { models } from '../services/modelStore.js';
 import { createModelDeployment, updateRootKustomization } from "../utils/generateYaml.js";
+import { createLlamaCppDeployment } from '../utils/generateLlamaCpp.js';
 import simpleGit from 'simple-git';
 
 const git = simpleGit("../cluster-config");
@@ -8,14 +9,18 @@ const git = simpleGit("../cluster-config");
 const router = express.Router();
 
 router.post('/models', async(req, res) => {
-  try{const { name, modelUrl } = req.body;
-    if (!name || !modelUrl) {
-    return res.status(400).json({ error: 'Name and modelUrl are required' });
+  try{const { name, modelUrl, runtime } = req.body;
+    if (!name || !modelUrl || !runtime) {
+    return res.status(400).json({ error: 'Name, modelUrl, and runtime are required' });
     }
-    const model = { name, modelUrl };
+    const model = { name, modelUrl, runtime };
     models.push(model);
 
-    createModelDeployment({ name, modelUrl });
+    if (runtime === 'llama.cpp') {
+      createLlamaCppDeployment(model);
+    } else {
+      createModelDeployment({ name, modelUrl, runtime });
+    }
     updateRootKustomization(name);
     
     await commitChanges(name);
@@ -33,8 +38,15 @@ router.get('/models', (req, res) => {
 });
 
 export async function commitChanges(modelName) {
+ try{ console.log('Committing changes to Git...');
   await git.add(".");
+  console.log('Changes added to staging area');
   await git.commit(`deploy model ${modelName}`);
+  console.log('Changes committed');
   await git.push();
+  console.log('Changes pushed to remote repository');}
+ catch(error){
+  console.error('Error committing changes:', error);
+ }
 }
 export default router;
