@@ -50,6 +50,8 @@ router.get('/models', (req, res) => {
 
 export async function commitChanges(modelName) {
  try{ console.log('Committing changes to Git...');
+  await git.addConfig('user.name', 'platform-bot');
+  await git.addConfig('user.email', 'bot@platform.dev');
   await git.add(".");
   console.log('Changes added to staging area');
   await git.commit(`deploy model ${modelName}`);
