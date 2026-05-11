@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 export function createModelDeployment(model) {
-  const basePath = "../cluster-config/apps/inference/dev";
+  const basePath = "./cluster-config/apps/inference/dev";
   const modelPath = path.join(basePath, model.name);
 
   fs.mkdirSync(modelPath, { recursive: true });
@@ -62,7 +62,7 @@ resources:
 }
 
 export function updateRootKustomization(modelName) {
-  const file = "../cluster-config/apps/inference/dev/kustomization.yml";
+  const file = "./cluster-config/apps/inference/dev/kustomization.yml";
 
   let content = fs.readFileSync(file, "utf-8");
 

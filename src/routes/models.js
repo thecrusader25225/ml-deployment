@@ -13,6 +13,7 @@ if (!fs.existsSync(REPO_DIR)) {
     `https://${token}@github.com/thecrusader25225/cluster-config.git`,
     REPO_DIR
   );
+  console.log('Repository cloned successfully');
 }
 
 const git = simpleGit(REPO_DIR);

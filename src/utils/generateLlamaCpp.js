@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 
 export function createLlamaCppDeployment(model) {
-  const basePath = "../cluster-config/apps/inference/dev";
+  const basePath = "./cluster-config/apps/inference/dev";
   const modelPath = path.join(basePath, model.name);
 
   fs.mkdirSync(modelPath, { recursive: true });
