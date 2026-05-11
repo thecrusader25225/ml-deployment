@@ -4,6 +4,18 @@ import { createModelDeployment, updateRootKustomization } from "../utils/generat
 import { createLlamaCppDeployment } from '../utils/generateLlamaCpp.js';
 import simpleGit from 'simple-git';
 
+const REPO_DIR = './cluster-config';
+const token = process.env.GH_PAT;
+if (!fs.existsSync(REPO_DIR)) {
+  const git = simpleGit();
+
+  await git.clone(
+    `https://${token}@github.com/thecrusader25225/cluster-config.git`,
+    REPO_DIR
+  );
+}
+
+const git = simpleGit(REPO_DIR);
 const git = simpleGit("../cluster-config");
 
 const router = express.Router();
