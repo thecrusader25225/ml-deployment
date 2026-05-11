@@ -29,7 +29,7 @@ jobs:
         --build-arg APP_VERSION=${TAG} \
         --build-arg COMMIT=${TAG} \
         --build-arg BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
-        -t shane25225/platform-backend:$TAG backend
+        -t shane25225/platform-backend:$TAG .
         docker push shane25225/platform-backend:$TAG
 
         echo "TAG=$TAG" >> $GITHUB_ENV
