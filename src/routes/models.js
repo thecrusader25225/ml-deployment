@@ -3,7 +3,7 @@ import { models } from '../services/modelStore.js';
 import { createModelDeployment, updateRootKustomization } from "../utils/generateYaml.js";
 import { createLlamaCppDeployment } from '../utils/generateLlamaCpp.js';
 import simpleGit from 'simple-git';
-
+import fs from 'fs';
 const REPO_DIR = './cluster-config';
 const token = process.env.GH_PAT;
 if (!fs.existsSync(REPO_DIR)) {
@@ -16,8 +16,6 @@ if (!fs.existsSync(REPO_DIR)) {
 }
 
 const git = simpleGit(REPO_DIR);
-const git = simpleGit("../cluster-config");
-
 const router = express.Router();
 
 router.post('/models', async(req, res) => {
