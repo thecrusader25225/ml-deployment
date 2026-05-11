@@ -3,7 +3,7 @@ name: Platform Backend dev CI
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - src/**
 jobs:

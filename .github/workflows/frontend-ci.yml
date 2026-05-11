@@ -3,7 +3,7 @@ name: Platform Frontend dev CI
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - frontend/**
 jobs:
