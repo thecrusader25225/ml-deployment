@@ -53,7 +53,7 @@ router.post('/models/:name/infer', async (req, res) => {
     const { name } = req.params;
 
     const response = await fetch(
-      `http://${name}.inference.svc.cluster.local/completion`,
+      `http://${name}.inference-dev.svc.cluster.local/completion`,
       {
         method: 'POST',
         headers: {
