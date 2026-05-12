@@ -92,7 +92,7 @@ export async function commitChanges(repoGit, modelName) {
   console.log('Changes added to staging area');
   await repoGit.commit(`deploy model ${modelName}`);
   console.log('Changes committed');
-  await repoGits.push();
+  await repoGit.push();
   console.log('Changes pushed to remote repository');}
  catch(error){
   console.error('Error committing changes:', error);
