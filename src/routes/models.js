@@ -4,22 +4,21 @@ import { createModelDeployment, updateRootKustomization } from "../utils/generat
 import { createLlamaCppDeployment } from '../utils/generateLlamaCpp.js';
 import simpleGit from 'simple-git';
 import fs from 'fs';
-const REPO_DIR = './cluster-config';
 const token = process.env.GH_PAT;
-if (!fs.existsSync(REPO_DIR)) {
-  const git = simpleGit();
-
-  await git.clone(
-    `https://${token}@github.com/thecrusader25225/cluster-config.git`,
-    REPO_DIR
-  );
-  console.log('Repository cloned successfully');
-}
-
-const git = simpleGit(REPO_DIR);
 const router = express.Router();
 
 router.post('/models', async(req, res) => {
+  const REPO_DIR = './cluster-config';
+  if (!fs.existsSync(REPO_DIR)) {
+    const git = simpleGit();
+
+    await git.clone(
+      `https://${token}@github.com/thecrusader25225/cluster-config.git`,
+      REPO_DIR
+    );
+    console.log('Repository cloned successfully');
+  }
+  const repoGit = simpleGit(REPO_DIR);
   try{const { name, modelUrl, runtime } = req.body;
     if (!name || !modelUrl || !runtime) {
     return res.status(400).json({ error: 'Name, modelUrl, and runtime are required' });
@@ -34,7 +33,12 @@ router.post('/models', async(req, res) => {
     }
     updateRootKustomization(name);
     
-    await commitChanges(name);
+    await commitChanges(repoGit, name);
+
+    fs.rmSync(REPO_DIR, {
+      recursive: true,
+      force: true
+    });
 
     console.log('Model registered:', model);
     res.status(200).json(model);}
@@ -79,16 +83,16 @@ router.post('/models/:name/infer', async (req, res) => {
   }
 });
 
-export async function commitChanges(modelName) {
+export async function commitChanges(repoGit, modelName) {
  try{ console.log('Committing changes to Git...');
-  await git.addConfig('user.name', 'platform-bot');
-  await git.addConfig('user.email', 'bot@platform.dev');
-  await git.pull('origin', 'main');
-  await git.add(".");
+  await repoGit.addConfig('user.name', 'platform-bot');
+  await repoGit.addConfig('user.email', 'bot@platform.dev');
+  // await repoGit.pull('origin', 'main');
+  await repoGit.add(".");
   console.log('Changes added to staging area');
-  await git.commit(`deploy model ${modelName}`);
+  await repoGit.commit(`deploy model ${modelName}`);
   console.log('Changes committed');
-  await git.push();
+  await repoGits.push();
   console.log('Changes pushed to remote repository');}
  catch(error){
   console.error('Error committing changes:', error);
