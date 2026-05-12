@@ -48,6 +48,37 @@ router.get('/models', (req, res) => {
   res.json(models);
 });
 
+router.post('/models/:name/infer', async (req, res) => {
+  try {
+    const { name } = req.params;
+
+    const response = await fetch(
+      `http://${name}.inference.svc.cluster.local/completion`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          prompt: req.body.prompt,
+          n_predict: req.body.n_predict || 64
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    res.json(data);
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      error: 'Inference failed'
+    });
+  }
+});
+
 export async function commitChanges(modelName) {
  try{ console.log('Committing changes to Git...');
   await git.addConfig('user.name', 'platform-bot');
