@@ -199,7 +199,7 @@ export default function App() {
           </div>
 
           <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-3 text-sm break-all text-green-400">
-            /api
+            http://dev.platform-backend.136.119.144.166.sslip.io:30998/api
           </div>
         </div>
 
