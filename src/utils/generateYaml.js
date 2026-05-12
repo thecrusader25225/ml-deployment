@@ -67,7 +67,7 @@ export function updateRootKustomization(modelName) {
   let content = fs.readFileSync(file, "utf-8");
 
   if (!content.includes(modelName)) {
-    content += `\n  - ${modelName}`;
+    content += `\n- ${modelName}`;
   }
 
   fs.writeFileSync(file, content);
