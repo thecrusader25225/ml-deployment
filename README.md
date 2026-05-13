@@ -1,6 +1,6 @@
 ## ML Deployment Platform
 
-A platform for dynamically deploying GGUF-based LLM inference workloads onto Kubernetes using GitOps workflows.
+A platform for dynamically deploying GGUF-based LLM inference workloads onto [Kubernetes cluster](https://github.com/thecrusader25225/cluster-config) using GitOps workflows.
 
 This application acts as the orchestration layer responsible for:
 
