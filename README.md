@@ -2,9 +2,6 @@
 
 A platform for dynamically deploying GGUF-based LLM inference workloads onto [this K8s cluster](https://github.com/thecrusader25225/cluster-config) using GitOps workflows.
 
----
-
-## Platform Architecture
 
 ![Platform Architecture](./assets/architecture.png)
 
