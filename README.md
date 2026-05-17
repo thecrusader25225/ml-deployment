@@ -1,6 +1,12 @@
 ## Kubernetes-Native ML Deployment Platform
 
-A platform for dynamically deploying GGUF-based LLM inference workloads onto [Kubernetes cluster](https://github.com/thecrusader25225/cluster-config) using GitOps workflows.
+A platform for dynamically deploying GGUF-based LLM inference workloads onto [this K8s cluster](https://github.com/thecrusader25225/cluster-config) using GitOps workflows.
+
+---
+
+## Platform Architecture
+
+<img width="1204" height="1306" alt="architecture" src="https://github.com/user-attachments/assets/33cc1012-ebc9-4113-898d-c7bbeff7fe7b" />
 
 This application acts as the orchestration layer responsible for:
 
