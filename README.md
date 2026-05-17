@@ -6,7 +6,7 @@ A platform for dynamically deploying GGUF-based LLM inference workloads onto [th
 
 ## Platform Architecture
 
-<img width="1204" height="1306" alt="architecture" src="https://github.com/user-attachments/assets/33cc1012-ebc9-4113-898d-c7bbeff7fe7b" />
+![Platform Architecture](./assets/architecture.png)
 
 This application acts as the orchestration layer responsible for:
 
